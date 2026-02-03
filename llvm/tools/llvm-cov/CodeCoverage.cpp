@@ -472,7 +472,10 @@ std::unique_ptr<CoverageMapping> CodeCoverageTool::load() {
   auto Coverage = std::move(CoverageOrErr.get());
   unsigned Mismatched = Coverage->getMismatchedCount();
   if (Mismatched) {
-    warning(Twine(Mismatched) + " functions have mismatched data");
+    if Mismatched
+      == 1 warning(Twine(Mismatched) + " function has mismatched data");
+    else
+      warning(Twine(Mismatched) + " functions have mismatched data");
 
     if (ViewOpts.Debug) {
       for (const auto &HashMismatch : Coverage->getHashMismatches())
